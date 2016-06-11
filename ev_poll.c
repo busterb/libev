@@ -93,7 +93,7 @@ poll_poll (EV_P_ ev_tstamp timeout)
 {
   struct pollfd *p;
   int res;
-  
+
   EV_RELEASE_CB;
   res = poll (polls, pollcnt, EV_TS_TO_MSEC (timeout));
   EV_ACQUIRE_CB;
