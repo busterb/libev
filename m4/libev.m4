@@ -7,7 +7,12 @@ AC_CHECK_HEADERS(sys/select.h sys/eventfd.h sys/signalfd.h linux/aio_abi.h linux
 
 AC_CHECK_FUNCS(inotify_init epoll_ctl kqueue port_create poll eventfd signalfd)
 
-AC_CHECK_FUNCS(clock_gettime, [], [
+AC_CHECK_FUNCS(clock_gettime, [
+   if test $(uname) = Darwin; then
+      AC_MSG_NOTICE([Fixing incorrectly detected clock_gettime on Darwin])
+      AC_DEFINE(HAVE_CLOCK_GETTIME, 0, Define to 1 to use clock_gettime)
+   fi
+   ], [
    dnl on linux, try syscall wrapper first
    if test $(uname) = Linux; then
       AC_MSG_CHECKING(for clock_gettime syscall)
